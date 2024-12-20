@@ -22,7 +22,7 @@ The project is built using **Java Spring Boot 3** and has the following structur
 - **Service**: Contains business logic.
 - **Repository**: Handles database operations.
 - **Model**: Entity definitions.
-- **Database**: Uses H2 or PostgreSQL.
+- **Database**: Uses H2.
 
 ---
 
@@ -33,8 +33,7 @@ The project is built using **Java Spring Boot 3** and has the following structur
 - **Maven** (To manage project dependencies)
 - **IDE**: IntelliJ, Eclipse, or VS Code
 - **Database**: H2 (in-memory) or PostgreSQL
-- **Swagger**: Swagger UI 
-
+- **Spring Boot 3.4.1+**
 ---
 
 ### 2. Running the Project
@@ -55,10 +54,6 @@ The project is built using **Java Spring Boot 3** and has the following structur
    ```
 
 4. **Test the API** using the endpoints below:
-
-## **Swagger Documentation Link**  
-Before performing the test, you can refer to the Swagger documentation for more details on the endpoint:  
-[Swagger UI](http://localhost:8080/swagger-ui/index.html#/)
 
 ### 🌐 API Endpoints
 
@@ -195,7 +190,14 @@ curl -X GET 'http://localhost:8080/api/v1/couriers/1/payments?date=2024-12-17'
 ### **Expected Response**
 ```json
 {
-  "totalPayment": 250.00
+    "totalPayment": 250.00,
+    "shiftPayments": [
+        {
+            "shiftId": 1,
+            "date": "2024-12-17",
+            "paymentAmount": 250.00
+        }
+    ]
 }
 ```
 
@@ -274,15 +276,40 @@ SELECT * FROM payments;
 
 ---
 
-### **Explanation**  
-- **PAYMENT_AMOUNT Calculation:**  
-  - **Package Count:** `10` × **Package Rate:** `5.00` = **50.00**  
-  - **Hours Worked:** `10` × **Hourly Rate:** `20.00` = **200.00**  
-  - **Total Payment:** `50.00 + 200.00 = 250.00`  
-
-Following these steps, records should be successfully created in both the `shifts` and `payments` tables.
+## **Validation Document: Verifying Courier, Operation, Shift, and Payment Records**
 
 ---
+
+### **Step: Endpoint Test**  
+**Request:**
+
+```bash
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/couriers/1/shifts' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "operationId": 0,
+  "date": "2024-12-30",
+  "packageCount": 0,
+  "hoursWorked": -1
+}'
+```
+
+---
+
+### **Expected Response**  
+```json
+{
+    "date": "Date must be in the past or present",
+    "operationId": "Operation Id count must be at least 1",
+    "packageCount": "Package count must be at least 1",
+    "hoursWorked": "Hours worked must be at least 1"
+}
+```
+
+---
+
+
 
 ## **H2 Console Access**
 

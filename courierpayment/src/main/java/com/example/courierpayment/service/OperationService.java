@@ -22,4 +22,19 @@ public class OperationService {
     public Optional<Operation> findOperationByOperationId(Long operationId) {
         return operationRepository.findById(operationId);
     }
+
+    public void saveOperation(Operation operation) {
+        if (operation == null) {
+            throw new IllegalArgumentException("Operation cannot be null and must be linked to a Courier");
+        }
+
+        if (operation.getOperationId() != null) {
+            operationRepository.findById(operation.getOperationId()).ifPresent(existingOperation -> {
+                throw new IllegalStateException(
+                        "Payment with ID " + existingOperation.getOperationId() + " already exists");
+            });
+        }
+
+        operationRepository.save(operation);
+    }
 }

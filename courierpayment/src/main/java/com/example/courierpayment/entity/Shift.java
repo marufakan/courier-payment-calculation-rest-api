@@ -26,6 +26,9 @@ public class Shift {
     @Column(name = "package_count")
     private Integer packageCount;
 
+    @Column(name = "hours_worked")
+    private Integer hoursWorked;
+
     public LocalDate getDate() {
         return date;
     }
@@ -33,9 +36,6 @@ public class Shift {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
-    @Column(name = "hours_worked")
-    private Integer hoursWorked;
 
     public Long getShiftId() {
         return shiftId;

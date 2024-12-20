@@ -7,12 +7,14 @@ import com.example.courierpayment.entity.Shift;
 import com.example.courierpayment.service.CourierService;
 import com.example.courierpayment.service.PaymentService;
 import com.example.courierpayment.service.ShiftService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/couriers")
@@ -29,7 +31,7 @@ public class CourierController {
 
     @PostMapping("/{courierId}/shifts")
     public ResponseEntity<ShiftResponseDTO> createShift(@PathVariable Long courierId,
-                                                        @RequestBody ShiftRequestDTO shiftRequestDTO) {
+                                                        @Valid @RequestBody ShiftRequestDTO shiftRequestDTO) {
         ShiftResponseDTO shiftResponseDTO = shiftService.createShift(courierId, shiftRequestDTO);
         return new ResponseEntity<>(shiftResponseDTO, HttpStatus.CREATED);
     }
@@ -46,9 +48,9 @@ public class CourierController {
     public ResponseEntity<ShiftResponseDTO> updateShift(
             @PathVariable Long courierId,
             @PathVariable Long shiftId,
-            @RequestBody ShiftRequestDTO shiftRequestDTO) {
+            @Valid @RequestBody ShiftRequestDTO shiftRequestDTO) {
 
-        ShiftResponseDTO shiftResponseDTO = shiftService.updateShiftByCourierId(courierId, shiftId, shiftRequestDTO);
+        ShiftResponseDTO  shiftResponseDTO = shiftService.updateShiftByCourierId(courierId, shiftId, shiftRequestDTO);
         return ResponseEntity.accepted().body(shiftResponseDTO);
     }
 
