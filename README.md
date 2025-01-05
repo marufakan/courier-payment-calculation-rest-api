@@ -39,7 +39,7 @@ The project is built using **Java Spring Boot 3** and has the following structur
 ### 2. Running the Project
 1. **Clone the project repository:**
    ```bash
-   git clone [https://github.com/paket-taxi/maruf-akan-case-study.git](https://github.com/marufakan/courier-payment-calculation-rest-api.git)
+   git clone https://github.com/marufakan/courier-payment-calculation-rest-api.git
    cd courier-payment-calculation
    ```
 
